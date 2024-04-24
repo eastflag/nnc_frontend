@@ -33,4 +33,8 @@ export default {
 npm create vite nnc_frontend
 - react (선택)
 - typescript + SWC (선택)
-# 추가 패키지
+# 추가 패키지 설치
+react router 6.3
+npm install react-router-dom localforage match-sorter sort-by
+MUI
+npm install @mui/material @emotion/react @emotion/styled
