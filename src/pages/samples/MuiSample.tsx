@@ -1,16 +1,14 @@
 import {Box} from "@mui/material";
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
-export default function Sample() {
-  let isExpanded = false;
-
+export default function MuiSample() {
   return (
     <Box
       sx={{
         bgcolor: 'background.paper',
         boxShadow: 1,
         borderRadius: 2,
-        p: isExpanded ? 2 : 12,
+        p: 12,
         minWidth: 300,
       }}
     >

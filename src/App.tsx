@@ -1,7 +1,8 @@
 import './App.css'
 import {Route, Routes} from "react-router-dom";
-import Sample from "./pages/sample/Sample.tsx";
+import MuiSample from "./pages/samples/MuiSample.tsx";
 import SignIn from "./pages/sign-in/SignIn.tsx";
+import {Counter} from "./pages/samples/Counter.tsx";
 
 function App() {
 
@@ -9,7 +10,8 @@ function App() {
     <>
       <Routes>
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sample" element={<Sample />} /> {/* 로그인 페이지 */}
+        <Route path="/samples/mui-sample" element={<MuiSample />} /> {/* MUI sample */}
+        <Route path="/samples/counter" element={<Counter />} /> {/* MUI sample */}
       </Routes>
     </>
   )
