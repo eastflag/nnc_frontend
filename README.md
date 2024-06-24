@@ -34,7 +34,20 @@ npm create vite nnc_frontend
 - react (선택)
 - typescript + SWC (선택)
 # 추가 패키지 설치
-react router 6.3
-npm install react-router-dom localforage match-sorter sort-by
-MUI
-npm install @mui/material @emotion/react @emotion/styled
+react router 6.3 설치  
+```angular2html
+npm install react-router-dom localforage match-sorter sort-by  
+```
+MUI 설치  
+```angular2html
+npm install @mui/material @emotion/react @emotion/styled  
+```
+MUI icon 설치  
+```angular2html
+npm install @mui/icons-material 
+```
+redux 및 redux toolkit 설치
+```angular2html
+npm install react-redux
+npm install @reduxjs/toolkit
+```
