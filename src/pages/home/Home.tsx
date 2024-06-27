@@ -14,6 +14,9 @@ export default function Home() {
                 <li>
                     <Link to='/samples/react-hook-form'>react-hook-form sample</Link>
                 </li>
+                <li>
+                    <Link to='/samples/image-upload'>image-upload</Link>
+                </li>
             </ul>
         </div>
     );

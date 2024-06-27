@@ -56,3 +56,7 @@ doc: https://www.react-hook-form.com/
 ```angular2html
 npm install react-hook-form
 ```
+### axios 설치
+```angular2html
+npm install axios
+```
