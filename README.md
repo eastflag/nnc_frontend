@@ -60,3 +60,7 @@ npm install react-hook-form
 ```angular2html
 npm install axios
 ```
+### rich editor  설치
+```angular2html
+npm install react-quill
+```
