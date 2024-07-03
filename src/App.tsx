@@ -8,6 +8,7 @@ import {ReactHookForm} from "./pages/samples/ReactHookForm.tsx";
 import {ImageUpload} from "./pages/samples/ImageUpload.tsx";
 import {Samples} from "./pages/samples/Samples.tsx";
 import {QuillSample} from "./pages/samples/QuillSample.tsx";
+import {MuiHookForm} from "./pages/samples/MuiHookForm.tsx";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/samples/mui-sample" element={<MuiSample />} /> {/* MUI sample */}
           <Route path="/samples/counter" element={<Counter />} /> {/* MUI sample */}
           <Route path="/samples/react-hook-form" element={<ReactHookForm />} /> {/* MUI sample */}
+          <Route path="/samples/mui-hook-form" element={<MuiHookForm />} /> {/* MUI sample */}
           <Route path="/samples/image-upload" element={<ImageUpload />} /> {/* MUI sample */}
           <Route path="/samples/quill" element={<QuillSample />} /> {/* MUI sample */}
         </Route>
