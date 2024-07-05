@@ -15,6 +15,9 @@ export const Samples = () => {
           <Link to='/samples/react-hook-form'>react-hook-form sample</Link>
         </li>
         <li>
+          <Link to='/samples/mui-form'>MUI Form sample</Link>
+        </li>
+        <li>
           <Link to='/samples/mui-hook-form'>MUI + react-hook-form sample</Link>
         </li>
         <li>

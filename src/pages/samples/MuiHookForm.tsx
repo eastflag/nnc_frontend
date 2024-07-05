@@ -1,14 +1,22 @@
-import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {Button, TextField} from "@mui/material";
+import {useForm} from "react-hook-form";
+import {Input} from "../../components/Input.tsx";
 
-interface IFormInput {
-  name: string
-  nickname: string
+interface FormValue {
+  name?: string;
+  password?: string;
 }
 
 export const MuiHookForm = () => {
-  const { control, handleSubmit } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
+  const { control, handleSubmit } = useForm<FormValue>({
+    defaultValues: {
+      name: "",
+      password: ""
+    },
+  });
+
+  const onSubmit = (data: FormValue) => {
+    console.log(data);
+  };
 
   return (
     <>
@@ -16,17 +24,23 @@ export const MuiHookForm = () => {
 
       {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
+        <Input
           name="name"
           control={control}
-          render={({field}) => <TextField id="name" label="name" variant="outlined" {...field} />}
+          rules={{ required: "필수!" }}
+          textFieldProps={{
+            label: "Name",
+          }}
         />
-        <Controller
-          name="nickname"
+        <Input
+          name="password"
           control={control}
-          render={({field}) => <TextField id="nickname" label="nickname" variant="outlined" {...field} />}
+          rules={{ required: "필수!" }}
+          textFieldProps={{
+            label: "Password",
+          }}
         />
-        <Button type="submit" variant="contained">submit</Button>
+        <button type="submit">submit</button>
       </form>
     </>
   );
