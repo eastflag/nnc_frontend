@@ -10,7 +10,7 @@ import store from "./store";
 const theme = createTheme({
   palette: {
     background: {
-      paper: '#fff',
+      paper: '#ffffff',
     },
     text: {
       primary: '#173A5E',
@@ -25,6 +25,7 @@ const theme = createTheme({
     },
   },
 });
+console.log(theme);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
