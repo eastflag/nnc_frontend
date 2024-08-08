@@ -46,7 +46,7 @@ export const MuiHookForm = () => {
           control={control}
           rules={{ /*required: "Password is required",*/
             // custom validation:
-            // 예: password 입력란이 두개가 있고 두번째 password는 두번째 password와 동일한지 체크할 경우 이것을 이용
+            // 예: password 입력란이 두개가 있고 두번째 password는 첫번째 password와 동일한지 체크할 경우 이것을 이용
             validate: (value: any, formValues: FormValue) => {
               console.log(`value: ${value}, validate: ${formValues.email === "aaa@gmail.com"}`);
               return formValues.email !== "aaa@gmail.com" || "password error message";
