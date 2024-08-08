@@ -29,7 +29,9 @@ export const MuiHookForm = () => {
           control={control}
           rules={{ required: "필수!" }}
           textFieldProps={{
-            label: "Name",
+            label: "Email Address",
+            fullWidth: true,
+            margin: "normal"
           }}
         />
         <Input
@@ -38,6 +40,8 @@ export const MuiHookForm = () => {
           rules={{ required: "필수!" }}
           textFieldProps={{
             label: "Password",
+            fullWidth: true,
+            margin: "normal"
           }}
         />
         <button type="submit">submit</button>
