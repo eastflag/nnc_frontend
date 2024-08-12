@@ -1,10 +1,11 @@
 import {
   Avatar,
-  Box, Button,
+  Box,
+  Button,
   Checkbox,
   Container,
-  CssBaseline,
-  FormControlLabel, Grid,
+  FormControlLabel,
+  Grid,
   Link,
   TextField,
   Typography
@@ -36,7 +37,6 @@ export default function SignIn() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
