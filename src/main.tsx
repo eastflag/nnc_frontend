@@ -9,6 +9,26 @@ import store from "./store";
 
 const theme = createTheme({
   palette: {
+    // primary: {
+    //   main: '#FF5733',
+      // light: will be calculated from palette.primary.main,
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    // },
+    // secondary: {
+    //   light: '#ff7961',
+    //   main: '#f44336',
+    //   dark: '#ba000d',
+    //   contrastText: '#000',
+    // },
+    // error: {
+    // },
+    // warning: {
+    // },
+    // info: {
+    // },
+    // success: {
+    // },
     background: {
       paper: '#ffffff',
     },
@@ -18,11 +38,7 @@ const theme = createTheme({
     },
     action: {
       active: '#001E3C',
-    },
-    success: {
-      main: '#009688',
-      dark: '#009688',
-    },
+    }
   },
 });
 console.log(theme);

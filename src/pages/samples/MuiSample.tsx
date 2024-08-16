@@ -1,9 +1,37 @@
-import {Box, Container} from "@mui/material";
+import {Box, Button, Container, Divider, Slider, Stack, useTheme} from "@mui/material";
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
 export default function MuiSample() {
+  const theme = useTheme();
+  console.log(`text.secondary: ${theme.palette.text.secondary}`)
+
   return (
     <>
+      <Stack sx={{ width: 200 }}>
+        <Button variant="contained" color="primary">primary</Button>
+        <Button variant="contained" color="secondary">secondary</Button>
+        <Button variant="contained" color="error">error</Button>
+        <Button variant="contained" color="warning">warning</Button>
+        <Button variant="contained" color="info">info</Button>
+        <Button variant="contained" color="success">success</Button>
+      </Stack>
+
+      <Divider sx={{ my: 2 }} />
+
+      <Slider
+        defaultValue={30}
+        // color="success"
+        sx={{
+          width: 300,
+          color: 'success.main',
+          '& .MuiSlider-thumb': {
+            borderRadius: '1px',
+          }
+        }}
+      />
+
+      <Divider sx={{ my: 2 }} />
+
       <Container maxWidth="xs">
         <Box
           sx={{
@@ -26,7 +54,7 @@ export default function MuiSample() {
           />
           <Box
             sx={{
-              color: 'success.dark',
+              color: theme.palette.success.dark,
               display: 'inline',
               fontWeight: 'bold',
               mx: 0.5,
@@ -40,6 +68,8 @@ export default function MuiSample() {
           </Box>
         </Box>
       </Container>
+
+      <Divider sx={{ my: 2 }} />
 
       <Container maxWidth="lg">
         <Box
