@@ -10,6 +10,7 @@ import {Samples} from "./pages/samples/Samples.tsx";
 import {QuillSample} from "./pages/samples/QuillSample.tsx";
 import {MuiHookForm} from "./pages/samples/MuiHookForm.tsx";
 import {MuiForm} from "./pages/samples/MuiForm.tsx";
+import SignUp from "./pages/sign-up/SignUp.tsx";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/samples" element={<Samples />}>
           <Route path="/samples/mui-sample" element={<MuiSample />} /> {/* MUI sample */}
