@@ -1,5 +1,5 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
-import counterSlice from './counter';
+import counterSlice from './counterSlice.ts';
 import storage from 'redux-persist/lib/storage';
 import {persistReducer} from 'redux-persist';
 import {PERSIST} from "redux-persist/es/constants";
