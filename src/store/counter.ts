@@ -1,17 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+type CountState = {
+  counter: number;
+}
+type CountAction = {
+  payload: number;
+  type: string;
+}
+
+const initialState: CountState = {
   counter: 0,
 }
 
 export const counterSlice = createSlice({
-  name: 'counter',
+  name: 'countdown',
   initialState,
   reducers: {
-    add: (state, action) => {
+    add: (state: CountState, action: CountAction) => {
       state.counter += action.payload;
     },
-    sub: (state, action) => {
+    sub: (state: CountState, action: CountAction) => {
       state.counter -= action.payload;
     },
   }
