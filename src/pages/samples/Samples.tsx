@@ -26,6 +26,9 @@ export const Samples = () => {
         <li>
           <Link to='/samples/quill'>Rich Editor: react-quill</Link>
         </li>
+        <li>
+          <Link to='/samples/auth-sample'>Authenticated Page</Link>
+        </li>
       </ul>
       <hr/>
       <Outlet></Outlet>

@@ -11,6 +11,8 @@ import {QuillSample} from "./pages/samples/QuillSample.tsx";
 import {MuiHookForm} from "./pages/samples/MuiHookForm.tsx";
 import {MuiForm} from "./pages/samples/MuiForm.tsx";
 import SignUp from "./pages/sign-up/SignUp.tsx";
+import AuthSample from "./pages/samples/AuthSample.tsx";
+import ProtectedRoute from "./routes/ProtectedRoute.tsx";
 
 function App() {
 
@@ -19,7 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/login" element={<SignIn />} />
         <Route path="/samples" element={<Samples />}>
           <Route path="/samples/mui-sample" element={<MuiSample />} /> {/* MUI sample */}
           <Route path="/samples/counter" element={<Counter />} /> {/* MUI sample */}
@@ -28,6 +30,11 @@ function App() {
           <Route path="/samples/mui-hook-form" element={<MuiHookForm />} /> {/* MUI sample */}
           <Route path="/samples/image-upload" element={<ImageUpload />} /> {/* MUI sample */}
           <Route path="/samples/quill" element={<QuillSample />} /> {/* MUI sample */}
+          <Route path="/samples/auth-sample" element={
+            <ProtectedRoute path="/samples/auth-sample">
+              <AuthSample />
+            </ProtectedRoute>
+          } /> {/* MUI sample */}
         </Route>
       </Routes>
     </>
