@@ -29,6 +29,9 @@ export const Samples = () => {
         <li>
           <Link to='/samples/auth-sample'>Authenticated Page</Link>
         </li>
+        <li>
+          <Link to='/samples/toast'>Toast Sample</Link>
+        </li>
       </ul>
       <hr/>
       <Outlet></Outlet>

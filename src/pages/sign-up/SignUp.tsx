@@ -3,13 +3,12 @@ import {
   Box,
   Button,
   Container,
-  Grid,
-  Link,
   Typography
 } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {useForm} from "react-hook-form";
 import {Input} from "../../components/Input.tsx";
+import api from "../../utils/api.ts";
 
 interface FormValue {
   email?: string;
@@ -22,12 +21,15 @@ export default function SignUp() {
   const { control, handleSubmit } = useForm<FormValue>({
     defaultValues: {
       email: "",
-      password: ""
+      nickname: "",
+      password: "",
+      password2: "",
     },
   });
 
-  const onSubmit = (data: FormValue) => {
+  const onSubmit = async (data: FormValue) => {
     console.log(data);
+    await api.put('/api/v1/auth/signup', data);
   };
 
   return (
@@ -89,6 +91,7 @@ export default function SignUp() {
               minLength: {value: 6, message: "password must be at least 6 characters long"},
             }}
             textFieldProps={{
+              type: "password",
               label: "Password *",
               fullWidth: true,
               margin: "normal",
@@ -105,6 +108,7 @@ export default function SignUp() {
               },
             }}
             textFieldProps={{
+              type: "password",
               label: "Re Password *",
               fullWidth: true,
               margin: "normal",
@@ -117,20 +121,8 @@ export default function SignUp() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Submit
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>

@@ -13,6 +13,8 @@ import {MuiForm} from "./pages/samples/MuiForm.tsx";
 import SignUp from "./pages/sign-up/SignUp.tsx";
 import AuthSample from "./pages/samples/AuthSample.tsx";
 import ProtectedRoute from "./routes/ProtectedRoute.tsx";
+import {ToastSample} from "./pages/samples/ToastSample.tsx";
+import {Toast} from "./components/Toast.tsx";
 
 function App() {
 
@@ -35,8 +37,11 @@ function App() {
               <AuthSample />
             </ProtectedRoute>
           } /> {/* MUI sample */}
+          <Route path="/samples/toast" element={<ToastSample />} /> {/* MUI sample */}
         </Route>
       </Routes>
+
+      <Toast />
     </>
   )
 }

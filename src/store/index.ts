@@ -4,10 +4,12 @@ import storage from 'redux-persist/lib/storage';
 import {persistReducer} from 'redux-persist';
 import {PERSIST} from "redux-persist/es/constants";
 import authSlice from "./authSlice.ts";
+import toastSlice from "./toastSlice.ts";
 
 const reducers = combineReducers({
   count: counterSlice.reducer,
   auth: authSlice.reducer,
+  toast: toastSlice.reducer,
 })
 
 const persistConfig = {
