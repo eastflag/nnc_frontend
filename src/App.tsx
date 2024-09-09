@@ -1,7 +1,7 @@
 import './App.css'
 import {Route, Routes} from "react-router-dom";
 import MuiSample from "./pages/samples/MuiSample.tsx";
-import SignIn from "./pages/sign-in/SignIn.tsx";
+import Login from "./pages/sign-in/Login.tsx";
 import {Counter} from "./pages/samples/Counter.tsx";
 import Home from "./pages/home/Home.tsx";
 import {ReactHookForm} from "./pages/samples/ReactHookForm.tsx";
@@ -15,15 +15,17 @@ import AuthSample from "./pages/samples/AuthSample.tsx";
 import ProtectedRoute from "./routes/ProtectedRoute.tsx";
 import {ToastSample} from "./pages/samples/ToastSample.tsx";
 import {Toast} from "./components/Toast.tsx";
+import {useAxiosInterceptor} from "./utils/useAxiosInterceptor.ts";
 
 function App() {
+  useAxiosInterceptor();
 
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/login" element={<SignIn />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/samples" element={<Samples />}>
           <Route path="/samples/mui-sample" element={<MuiSample />} /> {/* MUI sample */}
           <Route path="/samples/counter" element={<Counter />} /> {/* MUI sample */}
