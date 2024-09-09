@@ -28,8 +28,13 @@ export default function SignUp() {
   });
 
   const onSubmit = async (data: FormValue) => {
-    console.log(data);
-    await api.put('/api/v1/auth/signup', data);
+    try {
+      console.log(data);
+      const response = await api.put('/api/v1/auth/signup', data);
+      console.log(response);
+    } catch(error: any) {
+      console.log(error);
+    }
   };
 
   return (

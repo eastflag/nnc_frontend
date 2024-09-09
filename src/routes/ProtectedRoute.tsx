@@ -9,6 +9,7 @@ const ProtectedRoute = ({path, children}: any) => {
 
   const token = useSelector((state: any) => state.auth.token);
 
+  // 토콘이 없거나 만료된 토큰이면 로그인 화면으로 이동.
   if (!JwtUtils.isAuth(token)) {
     return <Navigate to={`/login?redirectUrl=${path}`} replace={true} />;
   }

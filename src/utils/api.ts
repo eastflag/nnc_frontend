@@ -43,9 +43,18 @@ instance.interceptors.response.use(
   (error) => {
     /*
         http status가 200이 아닌 경우
-        응답 에러 직전 호출됩니다.
-        .catch() 으로 이어집니다.
     */
+    if (error.response && error.response.status) {
+      console.log(`axios interceptor resonse error: ${error.response.status}`);
+      switch (error.response.status) {
+        // status code가 401인 경우 `logout`을 커밋하고 `/login` 페이지로 리다이렉트
+        case 401:
+          break;
+        default:
+          break;
+      }
+    }
+
     return Promise.reject(error);
   }
 );
