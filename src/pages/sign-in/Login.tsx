@@ -13,6 +13,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {useForm} from "react-hook-form";
 import customAxios from "../../utils/customAxios.ts";
 import {Input} from "../../components/Input.tsx";
+import {authActions} from "../../store/authSlice.ts";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 interface FormValue {
   email?: string;
@@ -33,6 +36,9 @@ function Copyright(props: any) {
 }
 
 export default function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { control, handleSubmit } = useForm<FormValue>({
     defaultValues: {
       email: "",
@@ -41,13 +47,10 @@ export default function Login() {
   });
 
   const onSubmit = async (data: FormValue) => {
-    try {
-      console.log(data);
-      const response = await customAxios.post('/api/v1/auth/login', data);
-      console.log(response);
-    } catch(error: any) {
-      console.log(error);
-    }
+    const response = await customAxios.post('/api/v1/auth/login', data);
+    console.log(response.data); // code, message, data: { access_token: '' }
+    dispatch(authActions.setToken(response.data.data.access_token));
+    navigate('/');
   };
 
   return (
