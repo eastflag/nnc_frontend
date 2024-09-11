@@ -24,7 +24,7 @@ const theme = createTheme({
     // 변수 추가
     neutral: {
       main: grey[500],
-      light: grey[50],
+      light: grey[200],
       dark: grey[900],
       contrastText: grey['A100'],
     },

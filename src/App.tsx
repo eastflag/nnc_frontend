@@ -16,6 +16,7 @@ import ProtectedRoute from "./routes/ProtectedRoute.tsx";
 import {ToastSample} from "./pages/samples/ToastSample.tsx";
 import {Toast} from "./components/Toast.tsx";
 import {useAxiosInterceptor} from "./utils/useAxiosInterceptor.ts";
+import Admin from './pages/admin/Admin.tsx';
 
 function App() {
   useAxiosInterceptor();
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/samples" element={<Samples />}>
           <Route path="/samples/mui-sample" element={<MuiSample />} /> {/* MUI sample */}
           <Route path="/samples/counter" element={<Counter />} /> {/* MUI sample */}
