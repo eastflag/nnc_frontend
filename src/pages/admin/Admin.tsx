@@ -6,9 +6,18 @@ function Admin() {
   return (
     <Box>
       <Header></Header>
-      <Box>
+      <Box sx={{
+        display: 'flex',
+        bgcolor: 'newtral.light',
+        height: 'calc(100% - 64px',
+      }}>
         <SideNav></SideNav>
-        <Box></Box>
+        <Box component="main" sx={{
+          p: 4,
+          width: '100%',
+          height: '100%',
+          overflow: 'auto',
+        }}></Box>
       </Box>
     </Box>
   );
