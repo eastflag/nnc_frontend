@@ -1,6 +1,7 @@
 import Header from "./Header.tsx";
 import SideNav from "./SideNav.tsx";
 import {Box} from "@mui/material";
+import {Outlet} from "react-router-dom";
 
 function Admin() {
   return (
@@ -8,8 +9,7 @@ function Admin() {
       <Header></Header>
       <Box sx={{
         display: 'flex',
-        bgcolor: 'newtral.light',
-        height: 'calc(100% - 64px',
+        height: 'calc(100% - 64px)',
       }}>
         <SideNav></SideNav>
         <Box component="main" sx={{
@@ -17,7 +17,9 @@ function Admin() {
           width: '100%',
           height: '100%',
           overflow: 'auto',
-        }}></Box>
+        }}>
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );

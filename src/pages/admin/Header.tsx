@@ -1,4 +1,4 @@
-import {AppBar, Badge, Box, IconButton, Toolbar} from "@mui/material";
+import {AppBar, Badge, Box, IconButton, Toolbar, Typography} from "@mui/material";
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -17,6 +17,7 @@ function Header() {
           sx={{
             width: '2rem'
           }}/>
+        <Typography variant="h6" color="primary" sx={{ml: 2}}>Admin Site</Typography>
         <Box sx={{flexGrow: 1}} />
         <IconButton>
           <Badge badgeContent={5} color="error">
