@@ -3,12 +3,16 @@ import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import {useDispatch} from "react-redux";
+import {adminActions} from "../../store/adminSlice.ts";
 
 function Header() {
+  const dispatch = useDispatch();
+
   return (
     <AppBar position="sticky" sx={{bgcolor: 'neutral.light'}}>
       <Toolbar>
-        <IconButton>
+        <IconButton onClick={() => dispatch(adminActions.toggleCollapsed())}>
           <MenuTwoToneIcon />
         </IconButton>
         <Box

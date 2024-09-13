@@ -3,15 +3,17 @@ import PersonIcon from '@mui/icons-material/Person';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {NavLink} from "react-router-dom";
 import {Typography, useTheme} from "@mui/material";
+import {useSelector} from "react-redux";
 
 function SideNav() {
   const theme = useTheme();
+  const collapsed = useSelector((state: any) => state.admin.collapsed);
 
   return (
     <Sidebar style={{
       height: '100%',
       top: 'auto',
-    }} breakPoint="md" backgroundColor={theme.palette.neutral.light}>
+    }} breakPoint="md" backgroundColor={theme.palette.neutral.light} collapsed={collapsed}>
       <Typography variant="h6" sx={{
         fontWeight: 600,
         pl: 2,
