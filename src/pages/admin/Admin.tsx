@@ -9,7 +9,7 @@ function Admin() {
       <Header></Header>
       <Box sx={{
         display: 'flex',
-        height: 'calc(100% - 64px)',
+        height: 'calc(100vh - 64px)',
       }}>
         <SideNav></SideNav>
         <Box component="main" sx={{
