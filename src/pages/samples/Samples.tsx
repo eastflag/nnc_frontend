@@ -32,6 +32,9 @@ export const Samples = () => {
         <li>
           <Link to='/samples/toast'>Toast Sample</Link>
         </li>
+        <li>
+          <Link to='/samples/grid-sample'>Grid Sample</Link>
+        </li>
       </ul>
       <hr/>
       <Outlet></Outlet>

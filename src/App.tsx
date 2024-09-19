@@ -19,6 +19,8 @@ import {useAxiosInterceptor} from "./utils/useAxiosInterceptor.ts";
 import Admin from './pages/admin/Admin.tsx';
 import UserManage from "./pages/admin/user/UserManage.tsx";
 import RoleManage from "./pages/admin/user/RoleManage.tsx";
+import Dashboard from "./pages/admin/dashboard/Dashboard.tsx";
+import GridSample from "./pages/samples/GridSample.tsx";
 
 function App() {
   useAxiosInterceptor();
@@ -30,6 +32,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />}>
+          <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/user-manage" element={<UserManage />} />
           <Route path="/admin/role-manage" element={<RoleManage />} />
         </Route>
@@ -47,6 +50,7 @@ function App() {
             </ProtectedRoute>
           } /> {/* MUI sample */}
           <Route path="/samples/toast" element={<ToastSample />} /> {/* MUI sample */}
+          <Route path="/samples/grid-sample" element={<GridSample />} />
         </Route>
       </Routes>
 
