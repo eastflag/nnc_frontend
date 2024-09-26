@@ -20,7 +20,8 @@ import Admin from './pages/admin/Admin.tsx';
 import UserManage from "./pages/admin/user/UserManage.tsx";
 import RoleManage from "./pages/admin/user/RoleManage.tsx";
 import Dashboard from "./pages/admin/dashboard/Dashboard.tsx";
-import GridSample from "./pages/samples/GridSample.tsx";
+import MuiGridSample from "./pages/samples/MuiGridSample.tsx";
+import AgGridSample from "./pages/samples/AgGridSample.tsx";
 
 function App() {
   useAxiosInterceptor();
@@ -50,7 +51,8 @@ function App() {
             </ProtectedRoute>
           } /> {/* MUI sample */}
           <Route path="/samples/toast" element={<ToastSample />} /> {/* MUI sample */}
-          <Route path="/samples/grid-sample" element={<GridSample />} />
+          <Route path="/samples/mui-grid-sample" element={<MuiGridSample />} />
+          <Route path="/samples/ag-grid-sample" element={<AgGridSample />} />
         </Route>
       </Routes>
 

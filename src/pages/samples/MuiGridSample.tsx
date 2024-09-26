@@ -101,11 +101,12 @@ function EditToolbar(props: EditToolbarProps) {
   );
 }
 
-function GridSample() {
+function MuiGridSample() {
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
+    console.log('handleRowEditStop');
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
     }
@@ -116,6 +117,7 @@ function GridSample() {
   };
 
   const handleSaveClick = (id: GridRowId) => () => {
+    console.log(rows);
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
@@ -136,12 +138,14 @@ function GridSample() {
   };
 
   const processRowUpdate = (newRow: GridRowModel) => {
+    console.log('processRowUpdate');
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
 
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
+    console.log('handleRowModesModelChange', newRowModesModel);
     setRowModesModel(newRowModesModel);
   };
 
@@ -235,7 +239,7 @@ function GridSample() {
       <DataGrid
         rows={rows}
         columns={columns}
-        editMode="row"
+        editMode="row"  /* 다중 row를 edit 가능하게 한다. row 전체가 edit 모드로 된다. */
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
@@ -251,4 +255,4 @@ function GridSample() {
   );
 }
 
-export default GridSample;
+export default MuiGridSample;
