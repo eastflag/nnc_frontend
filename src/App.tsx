@@ -22,6 +22,7 @@ import RoleManage from "./pages/admin/user/RoleManage.tsx";
 import Dashboard from "./pages/admin/dashboard/Dashboard.tsx";
 import MuiGridSample from "./pages/samples/MuiGridSample.tsx";
 import AgGridSample from "./pages/samples/AgGridSample.tsx";
+import PaginationSample from "./pages/samples/PaginationSample.tsx";
 
 function App() {
   useAxiosInterceptor();
@@ -53,6 +54,7 @@ function App() {
           <Route path="/samples/toast" element={<ToastSample />} /> {/* MUI sample */}
           <Route path="/samples/mui-grid-sample" element={<MuiGridSample />} />
           <Route path="/samples/ag-grid-sample" element={<AgGridSample />} />
+          <Route path="/samples/pagination-sample" element={<PaginationSample />} />
         </Route>
       </Routes>
 

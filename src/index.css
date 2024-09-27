@@ -16,3 +16,8 @@ html, body, #root {
   /*-webkit-font-smoothing: antialiased;*/
   /*-moz-osx-font-smoothing: grayscale;*/
 }
+
+/* MUI 클라이언트 사이드 페이지네이션 안보이게 설정 */
+.MuiTablePagination-root {
+  display: none;
+}

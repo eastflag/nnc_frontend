@@ -105,7 +105,7 @@ function MuiGridSample() {
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
 
-  const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
+  const  handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
     console.log('handleRowEditStop');
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -226,7 +226,7 @@ function MuiGridSample() {
   return (
     <Box
       sx={{
-        height: 500,
+        // height: 500,
         width: '100%',
         '& .actions': {
           color: 'text.secondary',

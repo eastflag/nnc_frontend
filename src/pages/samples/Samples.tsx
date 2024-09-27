@@ -38,6 +38,9 @@ export const Samples = () => {
         <li>
           <Link to='/samples/ag-grid-sample'>MUI ag-grid Sample</Link>
         </li>
+        <li>
+          <Link to='/samples/pagination-sample'>ServerSide Pagination Sample</Link>
+        </li>
       </ul>
       <hr/>
       <Outlet></Outlet>
