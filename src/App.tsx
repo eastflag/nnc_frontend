@@ -15,7 +15,6 @@ import AuthSample from "./pages/samples/AuthSample.tsx";
 import ProtectedRoute from "./routes/ProtectedRoute.tsx";
 import {ToastSample} from "./pages/samples/ToastSample.tsx";
 import {Toast} from "./components/Toast.tsx";
-import {useAxiosInterceptor} from "./utils/useAxiosInterceptor.ts";
 import Admin from './pages/admin/Admin.tsx';
 import UserManage from "./pages/admin/user/UserManage.tsx";
 import RoleManage from "./pages/admin/user/RoleManage.tsx";
@@ -23,6 +22,7 @@ import Dashboard from "./pages/admin/dashboard/Dashboard.tsx";
 import MuiGridSample from "./pages/samples/MuiGridSample.tsx";
 import AgGridSample from "./pages/samples/AgGridSample.tsx";
 import PaginationSample from "./pages/samples/PaginationSample.tsx";
+import {useAxiosInterceptor} from "./utils/useAxiosInterceptor.ts";
 
 function App() {
   useAxiosInterceptor();

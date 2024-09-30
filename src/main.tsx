@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {BrowserRouter} from "react-router-dom";
 import {CssBaseline, ThemeProvider} from "@mui/material";
@@ -21,7 +20,7 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied
 const persistor = persistStore(store);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode> <= this cause api twice call
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
@@ -32,5 +31,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </BrowserRouter>
       </PersistGate>
     </Provider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 );

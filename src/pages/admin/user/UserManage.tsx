@@ -1,5 +1,7 @@
 import {Box, Typography} from "@mui/material";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {useEffect, useState} from "react";
+import customAxios from "../../../utils/customAxios.ts";
 
 const columns: GridColDef[] = [
   {
@@ -25,7 +27,7 @@ const columns: GridColDef[] = [
   }
 ]
 
-const users = [
+/*const users = [
   {
     id: 1,
     email: 'eastflag@gmail.com',
@@ -38,9 +40,34 @@ const users = [
     nickname: 'user1',
     created: '2024-09-12 15:30:59.012345'
   }
-];
+];*/
 
 function UserManage() {
+  const [users, setUsers] = useState([]);
+  const [email, setEmail] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+
+  useEffect(() => {
+    getUserList();
+  }, [email, page, pageSize]);
+
+  const getUserList = async () => {
+    const params = {
+      email: email,
+      page: page-1,
+      size: pageSize,
+    }
+    try {
+      const response = await customAxios.get('/api/v1/admin/user/paged_list',
+        {params});
+      console.log(response);
+      setUsers(response.data.content);
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
   return (
     <Box>
       <Typography variant="h5" sx={{
