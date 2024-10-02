@@ -21,3 +21,7 @@ html, body, #root {
 .MuiTablePagination-root {
   display: none;
 }
+/* grid row가 에디팅중일때 editable 셀은 다르게 표시 */
+.MuiDataGrid-cell.MuiDataGrid-cell--editing {
+  border: 1px solid #aaaaaa;
+}

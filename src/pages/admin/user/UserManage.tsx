@@ -1,40 +1,27 @@
 import {Box, Button, MenuItem, Pagination, Select, Stack, TextField, Typography} from "@mui/material";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
-import {useEffect, useState} from "react";
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridEventListener, GridRowEditStopReasons,
+  GridRowId, GridRowModel,
+  GridRowModes,
+  GridRowModesModel
+} from "@mui/x-data-grid";
+import {ChangeEvent, useEffect, useState} from "react";
 import customAxios from "../../../utils/customAxios.ts";
-
-const columns: GridColDef[] = [
-  {
-    field: 'id',
-    headerName: 'ID',
-    width: 100,
-    // hide: true,
-  },
-  {
-    field: 'email',
-    headerName: 'e-mail',
-    width: 200,
-  },
-  {
-    field: 'nickname',
-    headerName: 'nickname',
-    width: 200,
-  },
-  {
-    field: 'role',
-    headerName: 'role',
-    width: 200,
-  },
-  {
-    field: 'created',
-    headerName: 'created date',
-    width: 200,
-  }
-]
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Close";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 function UserManage() {
+  // grid
   const [users, setUsers] = useState([]);
-  const [email, setEmail] = useState(null);
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+  // 검색
+  const [email, setEmail] = useState('');
+  // pagination
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [total, setTotal] = useState<number>(0);
@@ -48,6 +35,137 @@ function UserManage() {
   //   const pageCount = Math.floor(total / pageSize) + (total % pageSize > 0 ? 1 : 0);
   //   setCount(pageCount);
   // }, [pageSize, total]);
+
+  const handleEditClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleSaveClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  const handleDeleteClick = (id: GridRowId) => () => {
+    console.log(id);
+    // setRows(rows.filter((row) => row.id !== id));
+  };
+
+  const handleCancelClick = (id: GridRowId) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+
+    // const editedRow = rows.find((row) => row.id === id);
+    // if (editedRow!.isNew) {
+    //   setRows(rows.filter((row) => row.id !== id));
+    // }
+  };
+
+  const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
+    console.log('handleRowModesModelChange', newRowModesModel);
+    setRowModesModel(newRowModesModel);
+  };
+
+  const  handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
+    console.log('handleRowEditStop');
+    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+      event.defaultMuiPrevented = true;
+    }
+  };
+
+  const processRowUpdate = async (newRow: GridRowModel, oldRow: GridRowModel) => {
+    // add or update
+    console.log('processRowUpdate: ', newRow);
+    const updatedRow = { ...newRow, isNew: false };
+    // setUsers(users.map((user: any) => (user.id === newRow.id ? updatedRow : user)));
+
+    try {
+      const response = await customAxios.put("/api/v1/admin/user", newRow);
+      console.log(response);
+      return updatedRow;
+    } catch(e: any) {
+      return oldRow;
+    }
+  };
+
+  const columns: GridColDef[] = [
+    {
+      field: 'id',
+      headerName: 'ID',
+      width: 100,
+      // hide: true,
+    },
+    {
+      field: 'email',
+      headerName: 'e-mail',
+      width: 200,
+    },
+    {
+      field: 'nickname',
+      headerName: 'nickname',
+      width: 200,
+      editable: true,
+    },
+    {
+      field: 'role',
+      headerName: 'role',
+      width: 200,
+      editable: true,
+      type: 'singleSelect',
+      valueOptions: ['ADMIN', 'MANAGER', 'USER'],
+    },
+    {
+      field: 'created',
+      headerName: 'created date',
+      width: 200,
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      cellClassName: 'actions',
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              sx={{
+                color: 'primary.main',
+              }}
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              className="textPrimary"
+              onClick={handleCancelClick(id)}
+              color="inherit"
+            />,
+          ];
+        }
+
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
+  ]
 
   const getUserList = async () => {
     const params = {
@@ -76,7 +194,7 @@ function UserManage() {
     setPageSize(event.target.value)
   };
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (event: ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
@@ -103,7 +221,15 @@ function UserManage() {
         borderBottom: 1,
         borderColor: 'divider'
       }}>
-        <DataGrid columns={columns} rows={users}></DataGrid>
+        <DataGrid
+          columns={columns}
+          rows={users}
+          editMode="row"  /* row 전체가 edit 모드로 된다. 컬럼 더블클릭시 actions가 바뀐다. */
+          rowModesModel={rowModesModel}
+          onRowModesModelChange={handleRowModesModelChange}
+          onRowEditStop={handleRowEditStop}
+          processRowUpdate={processRowUpdate}
+        />
       </Box>
 
       <Box sx={{
