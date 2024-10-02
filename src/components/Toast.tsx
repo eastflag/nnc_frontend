@@ -23,6 +23,7 @@ export const Toast = () => {
 
   return (
     <Snackbar
+      key={new Date().getTime()} /* consecutive multiple snack bar */
       open={toastState.isOpened}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       autoHideDuration={3000}
