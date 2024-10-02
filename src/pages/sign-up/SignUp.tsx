@@ -35,8 +35,8 @@ export default function SignUp() {
 
   const onSubmit = async (data: FormValue) => {
     const response = await customAxios.post('/api/v1/auth/signup', data);
-    console.log(response.data); // code, message, data: { access_token: '' }
-    dispatch(authActions.setToken(response.data.data.access_token));
+    console.log(response); // code, message, data: { access_token: '' }
+    dispatch(authActions.setToken(response.data.access_token));
     navigate('/');
   };
 
