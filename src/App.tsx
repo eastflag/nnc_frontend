@@ -33,7 +33,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<Admin />}>
+        <Route path="/admin" element={
+          <ProtectedRoute path="/admin">
+            <Admin />
+          </ProtectedRoute>
+        }>
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/user-manage" element={<UserManage />} />
           <Route path="/admin/role-manage" element={<RoleManage />} />
