@@ -14,6 +14,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import {useConfirm} from "material-ui-confirm";
 
 function UserManage() {
   // grid
@@ -26,6 +27,8 @@ function UserManage() {
   const [pageSize, setPageSize] = useState(5);
   const [total, setTotal] = useState<number>(0);
   const [count, setCount] = useState<number>(0);
+  // material-ui-confirm
+  const confirm = useConfirm();
 
   useEffect(() => {
     getUserList();
@@ -44,9 +47,21 @@ function UserManage() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id: GridRowId) => () => {
+  const deleteRow = async (id: GridRowId) => {
+    const response = await customAxios.delete(`/api/v1/admin/user/${id}`);
+    console.log(response);
+  }
+
+  const handleDeleteClick =  (id: GridRowId) => () => {
     console.log(id);
     // setRows(rows.filter((row) => row.id !== id));
+    confirm({ description: `Are you sure to want to delete ${id}` })
+      .then(() => {
+        deleteRow(id);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -117,6 +132,11 @@ function UserManage() {
     {
       field: 'created',
       headerName: 'created date',
+      width: 200,
+    },
+    {
+      field: 'updated',
+      headerName: 'updated date',
       width: 200,
     },
     {
