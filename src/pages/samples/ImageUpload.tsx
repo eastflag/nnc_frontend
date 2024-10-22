@@ -14,7 +14,7 @@ export const ImageUpload = () => {
         formData.append("type", file.type);
         formData.append("image", file, file.name);
 
-        const {data} = await axios.post('/api/v1/demo/image/upload', formData)
+        const {data} = await axios.post('/api/v1/demo/image/upload1', formData)
         console.log(data)
         setUrl(data.data.url);
     }
