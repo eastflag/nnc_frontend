@@ -26,7 +26,7 @@ export const QuillSample = () => {
         const formData = new FormData();
         formData.append("type", file.type);
         formData.append("image", file);
-        const {data} = await axios.post('/api/v1/demo/image/upload', formData)
+        const {data} = await axios.post('/api/v1/demo/image/upload1', formData)
         const url = data?.data?.url;
         editor.insertEmbed(editor.getSelection(), "image", url);
       } else {
