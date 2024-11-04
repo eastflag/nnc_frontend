@@ -92,7 +92,7 @@ function UserManage() {
     // add or update
     console.log('processRowUpdate: ', newRow);
     const updatedRow = { ...newRow, isNew: false };
-    // setUsers(users.map((user: any) => (user.id === newRow.id ? updatedRow : user)));
+    // setUsers(users.map((manage: any) => (manage.id === newRow.id ? updatedRow : manage)));
 
     try {
       const response = await customAxios.put("/api/v1/admin/user", newRow);

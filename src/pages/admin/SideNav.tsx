@@ -38,12 +38,13 @@ function SideNav() {
       <Typography variant="h6" sx={titleStyle}>User</Typography>
       <Menu menuItemStyles={menuStyle}>
         <MenuItem component={<NavLink to="/admin/user" />} active icon={<PersonIcon />}>사용자 관리</MenuItem>
-        <MenuItem component={<NavLink to="/admin/log" />} active icon={<ManageAccountsIcon />}>로그 관리</MenuItem>
+        <MenuItem component={<NavLink to="/admin/category" />} active icon={<PersonIcon />}>카테고리 관리</MenuItem>
       </Menu>
       <Typography variant="h6" sx={titleStyle}>Contents</Typography>
       <Menu menuItemStyles={menuStyle}>
-        <MenuItem component={<NavLink to="/admin/category" />} active icon={<PersonIcon />}>카테고리 관리</MenuItem>
-        <MenuItem component={<NavLink to="/admin/news" />} active icon={<ManageAccountsIcon />}>뉴스 관리</MenuItem>
+        <MenuItem component={<NavLink to="/admin/sports" />} active icon={<ManageAccountsIcon />}>스포츠</MenuItem>
+        <MenuItem component={<NavLink to="/admin/culture" />} active icon={<ManageAccountsIcon />}>문화</MenuItem>
+        <MenuItem component={<NavLink to="/admin/finance" />} active icon={<ManageAccountsIcon />}>경제</MenuItem>
       </Menu>
     </Sidebar>
   );
