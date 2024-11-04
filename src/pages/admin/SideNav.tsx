@@ -35,16 +35,14 @@ function SideNav() {
       height: '100%',
       top: 'auto',
     }} breakPoint="md" backgroundColor={theme.palette.neutral.light} collapsed={collapsed}>
-      <Typography variant="h6" sx={titleStyle}>User</Typography>
+      <Typography variant="h6" sx={titleStyle}>Management</Typography>
       <Menu menuItemStyles={menuStyle}>
         <MenuItem component={<NavLink to="/admin/user" />} active icon={<PersonIcon />}>사용자 관리</MenuItem>
         <MenuItem component={<NavLink to="/admin/category" />} active icon={<PersonIcon />}>카테고리 관리</MenuItem>
       </Menu>
       <Typography variant="h6" sx={titleStyle}>Contents</Typography>
       <Menu menuItemStyles={menuStyle}>
-        <MenuItem component={<NavLink to="/admin/finance" />} active icon={<ManageAccountsIcon />}>경제</MenuItem>
-        <MenuItem component={<NavLink to="/admin/culture" />} active icon={<ManageAccountsIcon />}>문화</MenuItem>
-        <MenuItem component={<NavLink to="/admin/sports" />} active icon={<ManageAccountsIcon />}>스포츠</MenuItem>
+        <MenuItem component={<NavLink to="/admin/news" />} active icon={<ManageAccountsIcon />}>News 관리</MenuItem>
       </Menu>
     </Sidebar>
   );

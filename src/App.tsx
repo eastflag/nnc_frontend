@@ -22,10 +22,8 @@ import MuiGridSample from "./pages/samples/MuiGridSample.tsx";
 import AgGridSample from "./pages/samples/AgGridSample.tsx";
 import PaginationSample from "./pages/samples/PaginationSample.tsx";
 import {useAxiosInterceptor} from "./utils/useAxiosInterceptor.ts";
-import Sports from "./pages/admin/contents/Sports.tsx";
+import News from "./pages/admin/contents/News.tsx";
 import CategoryManage from "./pages/admin/manage/CategoryManage.tsx";
-import Culture from "./pages/admin/contents/Culture.tsx";
-import Finance from "./pages/admin/contents/Finance.tsx";
 
 function App() {
   useAxiosInterceptor();
@@ -44,9 +42,7 @@ function App() {
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/user" element={<UserManage />} />
           <Route path="/admin/category" element={<CategoryManage />} />
-          <Route path="/admin/finance" element={<Finance />} />
-          <Route path="/admin/Culture" element={<Culture />} />
-          <Route path="/admin/sports" element={<Sports />} />
+          <Route path="/admin/news" element={<News />} />
         </Route>
         <Route path="/samples" element={<Samples />}>
           <Route path="/samples/mui-sample" element={<MuiSample />} /> {/* MUI sample */}
