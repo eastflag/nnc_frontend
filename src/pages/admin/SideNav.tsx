@@ -42,9 +42,9 @@ function SideNav() {
       </Menu>
       <Typography variant="h6" sx={titleStyle}>Contents</Typography>
       <Menu menuItemStyles={menuStyle}>
-        <MenuItem component={<NavLink to="/admin/sports" />} active icon={<ManageAccountsIcon />}>스포츠</MenuItem>
-        <MenuItem component={<NavLink to="/admin/culture" />} active icon={<ManageAccountsIcon />}>문화</MenuItem>
         <MenuItem component={<NavLink to="/admin/finance" />} active icon={<ManageAccountsIcon />}>경제</MenuItem>
+        <MenuItem component={<NavLink to="/admin/culture" />} active icon={<ManageAccountsIcon />}>문화</MenuItem>
+        <MenuItem component={<NavLink to="/admin/sports" />} active icon={<ManageAccountsIcon />}>스포츠</MenuItem>
       </Menu>
     </Sidebar>
   );

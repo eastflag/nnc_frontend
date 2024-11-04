@@ -44,9 +44,9 @@ function App() {
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/user" element={<UserManage />} />
           <Route path="/admin/category" element={<CategoryManage />} />
-          <Route path="/admin/sports" element={<Sports />} />
-          <Route path="/admin/Culture" element={<Culture />} />
           <Route path="/admin/finance" element={<Finance />} />
+          <Route path="/admin/Culture" element={<Culture />} />
+          <Route path="/admin/sports" element={<Sports />} />
         </Route>
         <Route path="/samples" element={<Samples />}>
           <Route path="/samples/mui-sample" element={<MuiSample />} /> {/* MUI sample */}

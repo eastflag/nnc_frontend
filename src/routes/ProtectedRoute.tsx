@@ -14,6 +14,12 @@ const ProtectedRoute = ({path, children}: any) => {
     return <Navigate to={`/login?redirectUrl=${path}`} replace={true} />;
   }
 
+  if (path.startsWith('/admin')) {
+    if (JwtUtils.getRole(token) !== 'ADMIN' && JwtUtils.getRole(token) !== 'MANAGER') {
+      return <Navigate to={`/login?redirectUrl=${path}`} replace={true} />;
+    }
+  }
+
   return children;
 }
 

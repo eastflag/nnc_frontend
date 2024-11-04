@@ -20,8 +20,8 @@ export class JwtUtils {
     return decodedJwt.subject;
   }
 
-  static getRoles(token: any) {
+  static getRole(token: any) {
     const decodedJwt: any = jwtDecode(token)
-    return decodedJwt.roles;
+    return decodedJwt.role;
   }
 }
