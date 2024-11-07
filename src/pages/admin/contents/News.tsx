@@ -5,26 +5,26 @@ import {
   Button,
   FormControl,
   InputLabel,
-  MenuItem, Pagination,
+  MenuItem,
+  Pagination,
   Select,
-  SelectChangeEvent, Stack,
+  SelectChangeEvent,
+  Stack,
   Typography
 } from "@mui/material";
 import {useForm} from "react-hook-form";
 import {Input} from "../../../components/Input.tsx";
 import ReactQuill from "react-quill";
-import {
-  DataGrid,
-  GridColDef,
-  GridEventListener,
-  GridRowEditStopReasons,
-  GridRowModel,
-  GridRowModesModel
-} from "@mui/x-data-grid";
+import {DataGrid, GridColDef, GridRowParams, useGridApiRef} from "@mui/x-data-grid";
 
 interface Category {
   id: number;
   name: string;
+}
+
+interface UpdateFormValue {
+  title: string;
+  // content: string;
 }
 
 interface FormValue {
@@ -35,7 +35,6 @@ interface FormValue {
 function News() {
   // grid
   const [newsList, setNewsList] = useState([]);
-  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   // 검색
   const [title, setTitle] = useState('');
   // pagination
@@ -46,31 +45,6 @@ function News() {
   // news category
   const [categoryList, setCategoryList] = useState<Category[]>([]);
   const [category, setCategory] = useState<string>('');
-  // new title, content
-  const { control, handleSubmit, reset } = useForm<FormValue>({
-    defaultValues: {
-      title: "",
-      // content: ""
-    },
-  });
-  const quillRef = useRef<any>(null);
-  const [editorHtml, setEditorHtml] = useState<string>('');
-
-  const modules = useMemo(() => ({
-    toolbar: { // 툴바 옵션들
-      container: [
-        [{size: ['small', false, 'large', 'huge']}],
-        [{align: []}],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{list: 'ordered'}, {list: 'bullet'}],
-        [{color: []}, {background: []}],
-        ["image", "video"],
-      ],
-      handlers: {
-        image: imageHandler
-      }
-    },
-  }), []);
 
   useEffect(() => {
     getCategoryList();
@@ -78,6 +52,9 @@ function News() {
   }, []);
 
   // grid start --------------------------------------------
+  const apiRef = useGridApiRef();
+  const [selectedRowId, setSelectedRowId] = useState<number>(0);
+
   const columns: GridColDef[] = [
     {
       field: 'id',
@@ -102,32 +79,33 @@ function News() {
     },
   ]
 
-  const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
-    console.log('handleRowModesModelChange', newRowModesModel);
-    setRowModesModel(newRowModesModel);
-  };
+  const handleRowClick = (e: GridRowParams) => {
+    console.log(e);
+    console.log('selected: ', apiRef.current.isRowSelected(e.id));
 
-  const  handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
-    console.log('handleRowEditStop');
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
+    // click 이벤트가 select 이벤트 보다 먼저 일어난다.
+    if (!apiRef.current.isRowSelected(e.id)) {
+      // update form binding
+      getNews(e.id as number);
+    } else {
+      // reset update form
+      setValue("title", "");
+      setUpdateEditorHtml("");
+      setSelectedRowId(0);
     }
-  };
+  }
 
-  const processRowUpdate = async (newRow: GridRowModel, oldRow: GridRowModel) => {
-    // add or update
-    console.log('processRowUpdate: ', newRow);
-    const updatedRow = { ...newRow, isNew: false };
-    // setUsers(users.map((manage: any) => (manage.id === newRow.id ? updatedRow : manage)));
-
+  const getNews = async (id: number) => {
     try {
-      const response = await customAxios.put("/api/v1/admin/user", newRow);
+      const response = await customAxios.get(`/api/v1/manager/board/${id}`);
       console.log(response);
-      return updatedRow;
-    } catch(e: any) {
-      return oldRow;
+      setUpdateEditorHtml(response.data.content);
+      setValue("title", response.data.title);
+      setSelectedRowId(id);
+    } catch(e) {
+      console.log(e);
     }
-  };
+  }
   // grid end --------------------------------------------
 
   // pagination start ------------------------------------
@@ -140,6 +118,108 @@ function News() {
     setPage(value);
   };
   // pagination end --------------------------------------
+
+  // Update News start-----------------------------------------
+  const updateQuillRef = useRef<any>(null);
+  const [updateEditorHtml, setUpdateEditorHtml] = useState<string>('');
+  const { control: updateControl, handleSubmit: handleUpdateSubmit, reset: updateReset, setValue } = useForm<UpdateFormValue>({
+    defaultValues: {
+      title: "",
+      // content: ""
+    },
+  });
+
+  const updateModules = useMemo(() => ({
+    toolbar: { // 툴바 옵션들
+      container: [
+        [{size: ['small', false, 'large', 'huge']}],
+        [{align: []}],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{list: 'ordered'}, {list: 'bullet'}],
+        [{color: []}, {background: []}],
+        ["image", "video"],
+      ],
+      handlers: {
+        image: updateImageHandler
+      }
+    },
+  }), []);
+
+  function updateImageHandler(){
+    const editor = updateQuillRef?.current.getEditor();
+    console.log(editor)
+    const input: any = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files[0];
+      if (/^image\//.test(file.type)) {
+        console.log(file);
+        const formData = new FormData();
+        formData.append("type", file.type);
+        formData.append("image", file);
+        const response = await customAxios.post('/api/v1/demo/image/upload1', formData)
+        const url = response.data?.url;
+        editor.insertEmbed(editor.getSelection(), "image", url);
+      } else {
+        console.log('You could only upload images.');
+      }
+    };
+  }
+
+  const handleUpdateChangeEditor = (html: any) => {
+    setUpdateEditorHtml(html);
+  }
+
+  const onUpdateSubmit = async (data: FormValue) => {
+    if (!selectedRowId) {
+      return;
+    }
+
+    const body = {
+      id: selectedRowId,
+      title: data.title,
+      content: updateEditorHtml,
+    }
+    const response = await customAxios.put('/api/v1/manager/board', body);
+    console.log(response);
+    // reset form
+    updateReset({
+      title: ''
+    });
+    setUpdateEditorHtml("");
+    // refresh grid
+    getNewsList();
+  };
+  // Update News end -----------------------------------------------
+
+  // Add News start-----------------------------------------
+  const quillRef = useRef<any>(null);
+  const [editorHtml, setEditorHtml] = useState<string>('');
+  const { control, handleSubmit, reset } = useForm<FormValue>({
+    defaultValues: {
+      title: "",
+      // content: ""
+    },
+  });
+
+  const modules = useMemo(() => ({
+    toolbar: { // 툴바 옵션들
+      container: [
+        [{size: ['small', false, 'large', 'huge']}],
+        [{align: []}],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{list: 'ordered'}, {list: 'bullet'}],
+        [{color: []}, {background: []}],
+        ["image", "video"],
+      ],
+      handlers: {
+        image: imageHandler
+      }
+    },
+  }), []);
 
   function imageHandler(){
     const editor = quillRef?.current.getEditor();
@@ -164,6 +244,33 @@ function News() {
       }
     };
   }
+
+  const handleChangeEditor = (html: any) => {
+    setEditorHtml(html);
+  }
+
+  const onSubmit = async (data: FormValue) => {
+    const body = {
+      title: data.title,
+      content: editorHtml,
+      category_id: category,
+    }
+    const response = await customAxios.post('/api/v1/manager/board', body);
+    console.log(response);
+    // reset form
+    reset({
+      title: '',
+    });
+    setEditorHtml('');
+    // refresh grid
+    getNewsList();
+    // 상단 스크롤
+    window.scroll({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+  // Add News end -----------------------------------------------
 
   const getNewsList = async () => {
     const params = {
@@ -196,28 +303,8 @@ function News() {
     setCategory(event.target.value);
   };
 
-  const handleChangeEditor = (html: any) => {
-    setEditorHtml(html);
-  }
-
-  // news write
-  const onSubmit = async (data: FormValue) => {
-    const body = {
-      title: data.title,
-      content: editorHtml,
-      category_id: category,
-    }
-    const response = await customAxios.post('/api/v1/manager/board', body);
-    console.log(response);
-    // reset form
-    reset({
-      title: ''
-    });
-    setEditorHtml('');
-  };
-
   return (
-    <div>
+    <div id="news">
       <FormControl variant="outlined" sx={{ m: 1, minWidth: 200 }} size="small">
         <InputLabel id="news-category-label">News Category</InputLabel>
         <Select labelId="news-category-label"
@@ -233,13 +320,12 @@ function News() {
         borderColor: 'divider'
       }}>
         <DataGrid
+          apiRef={apiRef}
+          checkboxSelection
+          disableMultipleRowSelection
           columns={columns}
           rows={newsList}
-          editMode="row"  /* row 전체가 edit 모드로 된다. 컬럼 더블클릭시 actions가 바뀐다. */
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={handleRowModesModelChange}
-          onRowEditStop={handleRowEditStop}
-          processRowUpdate={processRowUpdate}
+          onRowClick={handleRowClick}
         />
       </Box>
 
@@ -265,7 +351,43 @@ function News() {
         <Pagination count={count} page={page} onChange={handleChangePage} />
       </Box>
 
-      <section>
+      <Box sx={{ mt: 5 }} >
+        <Typography variant="h5" sx={{fontWeight: 'bold'}}>Update News</Typography>
+        <Box component="form" onSubmit={handleUpdateSubmit(onUpdateSubmit)}>
+          <Input
+            name="title"
+            control={updateControl}
+            rules={{
+              required: "title is required",
+              minLength: {value: 4, message: "Email must be at least 4 characters long"},
+              maxLength: {value: 100, message: "Email must be less than 100 characters long"},
+            }}
+            textFieldProps={{
+              label: "title",
+              fullWidth: true,
+              margin: "normal",
+              size: "small"
+            }}
+          />
+          <ReactQuill
+            ref={updateQuillRef}
+            theme="snow"
+            modules={updateModules}
+            value={updateEditorHtml}
+            onChange={handleUpdateChangeEditor}
+            style={{
+              width: '100%',
+              height: '500px'
+            }}
+          />
+          <Box sx={{pt: 4}}>
+            <Button type="submit" fullWidth variant="contained" color="warning"
+                    sx={{ mt: 3 }}>Update</Button>
+          </Box>
+        </Box>
+      </Box>
+
+      <Box sx={{ mt: 5 }} >
         <Typography variant="h5" sx={{fontWeight: 'bold'}}>Add News</Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
           <Input
@@ -295,11 +417,11 @@ function News() {
             }}
           />
           <Box sx={{pt: 4}}>
-            <Button type="submit" fullWidth variant="contained"
-                    sx={{ mt: 3 }}>submit</Button>
+            <Button type="submit" fullWidth variant="contained" color="primary"
+                    sx={{ mt: 3 }}>Add</Button>
           </Box>
         </Box>
-      </section>
+      </Box>
     </div>
   );
 }
