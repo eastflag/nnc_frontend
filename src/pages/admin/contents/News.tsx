@@ -9,13 +9,16 @@ import {
   Pagination,
   Select,
   SelectChangeEvent,
-  Stack,
+  Stack, TextField,
   Typography
 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import {useForm} from "react-hook-form";
 import {Input} from "../../../components/Input.tsx";
 import ReactQuill from "react-quill";
 import {DataGrid, GridColDef, GridRowParams, useGridApiRef} from "@mui/x-data-grid";
+import {toastActions} from "../../../store/toastSlice.ts";
+import {useDispatch} from "react-redux";
 
 interface Category {
   id: number;
@@ -33,6 +36,7 @@ interface FormValue {
 }
 
 function News() {
+  const dispatch = useDispatch();
   // grid
   const [newsList, setNewsList] = useState([]);
   // 검색
@@ -122,7 +126,7 @@ function News() {
   // Update News start-----------------------------------------
   const updateQuillRef = useRef<any>(null);
   const [updateEditorHtml, setUpdateEditorHtml] = useState<string>('');
-  const { control: updateControl, handleSubmit: handleUpdateSubmit, reset: updateReset, setValue } = useForm<UpdateFormValue>({
+  const { control: updateControl, handleSubmit: handleUpdateSubmit, setValue } = useForm<UpdateFormValue>({
     defaultValues: {
       title: "",
       // content: ""
@@ -186,12 +190,18 @@ function News() {
     const response = await customAxios.put('/api/v1/manager/board', body);
     console.log(response);
     // reset form
-    updateReset({
-      title: ''
-    });
-    setUpdateEditorHtml("");
+    // updateReset({
+    //   title: ''
+    // });
+    // setUpdateEditorHtml("");
     // refresh grid
     getNewsList();
+    // toast
+    dispatch(toastActions.open({
+      isOpened: true,
+      severity: 'success',
+      message: 'update success'
+    }));
   };
   // Update News end -----------------------------------------------
 
@@ -264,13 +274,18 @@ function News() {
     setEditorHtml('');
     // refresh grid
     getNewsList();
-    // 상단 스크롤
-    window.scroll({
-      top: 0,
-      behavior: 'smooth',
-    });
+    // toast
+    dispatch(toastActions.open({
+      isOpened: true,
+      severity: 'success',
+      message: 'news created!!'
+    }));
   };
   // Add News end -----------------------------------------------
+
+  const handleChangeTitle = (event: any) => {
+    setTitle(event.target.value);
+  };
 
   const getNewsList = async () => {
     const params = {
@@ -304,17 +319,44 @@ function News() {
   };
 
   return (
-    <div id="news">
-      <FormControl variant="outlined" sx={{ m: 1, minWidth: 200 }} size="small">
-        <InputLabel id="news-category-label">News Category</InputLabel>
-        <Select labelId="news-category-label"
-          value={category} onChange={handleChangeCategory} label="News Category">
-          {
-            categoryList.map((category) => (<MenuItem value={category.id} key={category.id}>{category.name}</MenuItem>))
-          }
-        </Select>
-      </FormControl>
+    <Box id="news">
+      {/*제목*/}
+      <Grid container spacing={1}>
+        <Grid size="auto">
+          <Typography variant="h5" sx={{
+            mb: 2
+          }}>News Management</Typography>
+        </Grid>
+        <Grid size="grow">
+        </Grid>
+        <Grid size="auto">
+          <FormControl variant="outlined" sx={{ m: 1, minWidth: 200 }} size="small">
+            <InputLabel id="news-category-label">News Category</InputLabel>
+            <Select labelId="news-category-label"
+                    value={category} onChange={handleChangeCategory} label="News Category">
+              {
+                categoryList.map((category) => (<MenuItem value={category.id} key={category.id}>{category.name}</MenuItem>))
+              }
+            </Select>
+          </FormControl>
+        </Grid>
+      </Grid>
 
+      {/* 검색 */}
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        mb: 2,
+      }}>
+        <Stack direction="row" alignItems="center">
+          <Typography variant="body1" sx={{mr: 2}}>title:</Typography>
+          <TextField size="small" label="" variant="outlined" value={title} onChange={handleChangeTitle} />
+        </Stack>
+        <Button variant="outlined" color="primary" onClick={getNewsList}>검  색</Button>
+      </Box>
+
+      {/* 그리드 */}
       <Box sx={{
         borderBottom: 1,
         borderColor: 'divider'
@@ -329,6 +371,7 @@ function News() {
         />
       </Box>
 
+      {/* 페이지네이션 */}
       <Box sx={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -351,6 +394,7 @@ function News() {
         <Pagination count={count} page={page} onChange={handleChangePage} />
       </Box>
 
+      {/* Update News */}
       <Box sx={{ mt: 5 }} >
         <Typography variant="h5" sx={{fontWeight: 'bold'}}>Update News</Typography>
         <Box component="form" onSubmit={handleUpdateSubmit(onUpdateSubmit)}>
@@ -387,6 +431,7 @@ function News() {
         </Box>
       </Box>
 
+      {/* Add News */}
       <Box sx={{ mt: 5 }} >
         <Typography variant="h5" sx={{fontWeight: 'bold'}}>Add News</Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -422,7 +467,7 @@ function News() {
           </Box>
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 }
 
