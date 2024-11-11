@@ -48,12 +48,15 @@ function News() {
   const [count, setCount] = useState<number>(0);
   // news category
   const [categoryList, setCategoryList] = useState<Category[]>([]);
-  const [category, setCategory] = useState<string>('');
+  const [categoryId, setCategoryId] = useState<string>('');
 
   useEffect(() => {
     getCategoryList();
-    getNewsList();
   }, []);
+
+  useEffect(() => {
+    getNewsList();
+  }, [categoryId])
 
   // grid start --------------------------------------------
   const apiRef = useGridApiRef();
@@ -263,7 +266,7 @@ function News() {
     const body = {
       title: data.title,
       content: editorHtml,
-      category_id: category,
+      category_id: categoryId,
     }
     const response = await customAxios.post('/api/v1/manager/board', body);
     console.log(response);
@@ -288,10 +291,17 @@ function News() {
   };
 
   const getNewsList = async () => {
+    if (!categoryId) {
+      return;
+    }
+
+    const category = categoryList.find((category: Category) => category.id === parseInt(categoryId));
+
     const params = {
       title: title,
       page: page-1,
       size: pageSize,
+      categoryName: category?.name,
     }
     try {
       const response = await customAxios.get('/api/v1/manager/board/paged_list',
@@ -310,12 +320,12 @@ function News() {
     console.log(response);
     setCategoryList(response.data);
     if (response.data.length > 0) {
-      setCategory(response.data[0].id);
+      setCategoryId(response.data[0].id);
     }
   }
 
   const handleChangeCategory = (event: SelectChangeEvent) => {
-    setCategory(event.target.value);
+    setCategoryId(event.target.value);
   };
 
   return (
@@ -333,7 +343,7 @@ function News() {
           <FormControl variant="outlined" sx={{ m: 1, minWidth: 200 }} size="small">
             <InputLabel id="news-category-label">News Category</InputLabel>
             <Select labelId="news-category-label"
-                    value={category} onChange={handleChangeCategory} label="News Category">
+                    value={categoryId} onChange={handleChangeCategory} label="News Category">
               {
                 categoryList.map((category) => (<MenuItem value={category.id} key={category.id}>{category.name}</MenuItem>))
               }
